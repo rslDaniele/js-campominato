@@ -8,42 +8,131 @@
 // Al termine della partita il software deve comunicare il punteggio, cioè il numero di volte che l’utente ha inserito un numero consentito.
 
 
-// Dichiarazione funzione che genera i 16 numeri
+var win = 1; // variabile vittoria o sconfitta user
 
-function generaNum() {
-  for (var i = 0; i < 16; i++) {
-  var numeroGen = Math.floor(Math.random() * 100);
-  console.log("numeri estratti", numeroGen )
-  numeri.push(numeroGen); //funzione che mette i numeri generati nell'array
+var numeri = []; // Variabile d'appoggio da usare come array per i numeri generati
+
+var numeriUtente = []; // array dei numeri scelti dall'utente
+
+var chances; // possibilità di entries dell'user (100 - 16)
+
+var sceltaUser; // numeri inseriti in prompt dal giocatore
+
+var punteggio; //punti fatti dal giocatore
+// scelta difficoltà partita
+
+var difficolta = parseInt(prompt("Scegli la difficolta 1(facile), 2(media), 3(difficile)"));
+
+if (difficolta === 1) {
+  chances = 84;
+  alert("Iniziamo con calma")
+}else if (difficolta === 2) {
+  chances = 64;
+  alert("Ti piacciono le sfide?")
+}else {
+  chances = 34;
+  alert("Wow, hardcore!")
+}
+
+// Dichiarazione funzione che genera i 16 numeri
+if (difficolta === 1) {
+  function generaNum() {
+    while (numeri.length < 16) {
+      var numeroGen = Math.floor(Math.random() * 100) + 1;
+      console.log("numero estratto", numeroGen )
+      if (!numeri.includes(numeroGen)) { // regola per far si che nell'array non ci siano doppioni
+
+      numeri.push(numeroGen); // funzione che mette i numeri generati nell'array
+      }
+    }
+  }
+}else if (difficolta === 2) {
+  function generaNum() {
+    while (numeri.length < 16) {
+      var numeroGen = Math.floor(Math.random() * 80) + 1;
+      console.log("numero estratto", numeroGen )
+      if (!numeri.includes(numeroGen)) { // regola per far si che nell'array non ci siano doppioni
+
+      numeri.push(numeroGen); // funzione che mette i numeri generati nell'array
+      }
+    }
+  }
+}else {
+  function generaNum() {
+    while (numeri.length < 16) {
+      var numeroGen = Math.floor(Math.random() * 50) + 1;
+      console.log("numero estratto", numeroGen )
+      if (!numeri.includes(numeroGen)) { // regola per far si che nell'array non ci siano doppioni
+
+      numeri.push(numeroGen); // funzione che mette i numeri generati nell'array
+      }
+    }
   }
 }
 
-
-var numeri = []; // Variabile d'appoggio da usare come array per i numeri generati
 
 generaNum(); // Comando per eseguire la funzione
 console.log(numeri);
 
-// Chidiamo all'utente di inserire 16 numeri tra 1 e 100
+if (difficolta === 1) {
+  document.getElementById('play').addEventListener("click",function giochiamo() { while (win === 1 && numeriUtente.length <= chances ) {
 
-var sceltaUser = prompt("Scegli un numero da 1 a 16");
-console.log(sceltaUser);
+    sceltaUser = parseInt(prompt("Scegli un numero da 1 a 100"));
+    console.log(sceltaUser);
 
-// Controlliamo se il numero scelto è nell'array
-
-var win = 1;
-
-for (var i = 0; i < numeri.length; i++) {
-  var numeroCheck = numeri[i];
-  console.log("esecuzione ciclo per", numeroCheck)
-
-  if (numeroCheck == sceltaUser) {
-    win = 0;
+    if (numeri.includes(sceltaUser)) {
+      win = 0;
+      console.log("hai perso");
+    } else if (sceltaUser < 1) {
+      alert("inserisci un numero da 1 a 100")
+    } else if (sceltaUser > 100 ) {
+      alert("inserisci un numero da 1 a 100")
+    } else if (numeriUtente.includes(sceltaUser)) {
+      alert("numero già inserito");
+    } else {
+      numeriUtente.push(sceltaUser)
+    }
   }
-}
+  } );
 
-if (win == 0) {
-  console.log("hai perso!")
-} else {
-  console.log("andiamo avanti!")
+}else if (difficolta === 2) {
+  document.getElementById('play').addEventListener("click",function giochiamo() { while (win === 1 && numeriUtente.length <= chances ) {
+
+    sceltaUser = parseInt(prompt("Scegli un numero da 1 a 80"));
+    console.log(sceltaUser);
+
+    if (numeri.includes(sceltaUser)) {
+      win = 0;
+      console.log("hai perso");
+    } else if (sceltaUser < 1) {
+      alert("inserisci un numero da 1 a 80")
+    } else if (sceltaUser > 80 ) {
+      alert("inserisci un numero da 1 a 80")
+    } else if (numeriUtente.includes(sceltaUser)) {
+      alert("numero già inserito");
+    } else {
+      numeriUtente.push(sceltaUser)
+    }
+  }
+  } );
+}else {
+  document.getElementById('play').addEventListener("click",function giochiamo() { while (win === 1 && numeriUtente.length <= chances ) {
+
+    sceltaUser = parseInt(prompt("Scegli un numero da 1 a 50"));
+    console.log(sceltaUser);
+
+    if (numeri.includes(sceltaUser)) {
+      win = 0;
+      console.log("hai perso");
+    } else if (sceltaUser < 1) {
+      alert("inserisci un numero da 1 a 100")
+    } else if (sceltaUser > 50 ) {
+      alert("inserisci un numero da 1 a 50")
+    } else if (numeriUtente.includes(sceltaUser)) {
+      alert("numero già inserito");
+    } else {
+      numeriUtente.push(sceltaUser)
+    }
+  }
+  } );
 }
